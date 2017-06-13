@@ -1,16 +1,11 @@
 package monster.island;
 
-
-import java.applet.AudioClip;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,46 +19,59 @@ import javax.swing.JFrame;
  */
 public class Tablero extends JFrame
 {
-    private Personaje personaje;
+    private boolean openedOnce;
+    private Mapa map;
+    private Menu men;
+    private int onNow;
     public Tablero()
     {
         super();
-        personaje=new Personaje(1);
-        setSize(1280,720);
-        final AudioClip oyasumi;
-        oyasumi = java.applet.Applet.newAudioClip(getClass().getResource("audio/35.wav"));
-        oyasumi.play();
-        setLayout(null);
-        this.addWindowListener(new WindowAdapter(){
-            @Override
-            public void windowClosing(WindowEvent we) {
-                oyasumi.stop();
-            }
+        openedOnce = false;
+        map = new Mapa();
+        onNow = 1;
+        men = new Menu();
+        reevaluate(onNow);
+        map.setFocusable(true);
+        setSize(1280,720); 
+        map.addComponentListener(new ComponentAdapter() {
+           public void componentHidden(ComponentEvent e){
+               map.getOyasumi().stop();
+           }
+           public void componentShown(ComponentEvent e) {
+               map.getOyasumi().play();
+           }
+        });
+        men.addComponentListener(new ComponentAdapter() {
+           public void componentHidden(ComponentEvent e){
+               men.getSong().stop();
+               onNow = men.getOnNow();
+               getMe().remove(men);
+               men = null;
+               reevaluate(onNow);
+           }
         });
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        add(personaje);
-        addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyCode()==KeyEvent.VK_DOWN)
-                {
-                    personaje.muevete(3);
-                }
-                else if (ke.getKeyCode()==KeyEvent.VK_LEFT)
-                {
-                    personaje.muevete(4);
-                }
-                else  if (ke.getKeyCode()==KeyEvent.VK_UP)
-                {
-                    personaje.muevete(1);
-                }
-                else if (ke.getKeyCode()==KeyEvent.VK_RIGHT)
-                {
-                    personaje.muevete(2);
-                }
-            }
-        });
-        setLocationRelativeTo(null);
-        setVisible(true);
+        if(openedOnce == false){
+            new Splash(this);
+            openedOnce = true;
+        }
+        this.getContentPane().setLayout(null);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+    private Tablero getMe(){
+        return this;
+    }
+    private void reevaluate(int i){
+        if(i == 1){
+            this.add(men);
+        }
+        else if(i == 2){
+            
+        }
+        else{
+            this.add(map);
+            map.requestFocus();
+        }
     }
 }
