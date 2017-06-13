@@ -32,7 +32,7 @@ public class Tablero extends JFrame
         men = new Menu();
         reevaluate(onNow);
         map.setFocusable(true);
-        setSize(1280,720); 
+        setSize(1150,720); 
         map.addComponentListener(new ComponentAdapter() {
            public void componentHidden(ComponentEvent e){
                map.getOyasumi().stop();
@@ -72,6 +72,7 @@ public class Tablero extends JFrame
         else{
             this.add(map);
             map.requestFocus();
+            map.getOyasumi().play();
         }
     }
 }

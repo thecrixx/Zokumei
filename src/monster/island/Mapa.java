@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class Mapa extends JPanel{
     private Personaje personaje;
     final AudioClip oyasumi;
+    
     public Mapa(){
         super();
         personaje = new Personaje(1);
