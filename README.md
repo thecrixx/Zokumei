@@ -1,3 +1,2 @@
 # Zokumei
-Omar, Axel
-t
+Un trabajo para nuestra carrera

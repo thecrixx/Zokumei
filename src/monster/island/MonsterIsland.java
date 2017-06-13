@@ -16,7 +16,7 @@ public class MonsterIsland {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Menu mn = new Menu();
+        Tablero tb = new Tablero();
     }
     
 }
