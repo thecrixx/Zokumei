@@ -5,19 +5,11 @@
  */
 package monster.island;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -25,12 +17,14 @@ import javax.swing.Timer;
  * @author Omar xv
  */
 public class Splash extends JFrame{
-    private Menu padre;
+    private Tablero padre;
+    private int onNow;
     private Timer tmrTiempo;
-    public Splash (Menu padre)
+    public Splash (Tablero padre)
     {
         super ();
         this.padre=padre;
+        onNow = 1;
         setSize(600,400);
         setLocation(100,100);
         setContentPane(new JLabel(new ImageIcon(getClass().getResource("imagenes/menu/0.jpg"))));
@@ -51,7 +45,7 @@ public class Splash extends JFrame{
     {
         return this;
     }
-    public Menu getPadre()
+    public Tablero getPadre()
     {
         return padre;
     }
