@@ -5,6 +5,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /*
@@ -21,58 +22,27 @@ public class Tablero extends JFrame
 {
     private boolean openedOnce;
     private Mapa map;
-    private Menu men;
-    private int onNow;
+    private Interfaz interfaz;
+    private JLayeredPane capas;
     public Tablero()
     {
         super();
-        openedOnce = false;
+        interfaz = new Interfaz();
         map = new Mapa();
-        onNow = 1;
-        men = new Menu();
-        reevaluate(onNow);
+        capas = new JLayeredPane();
+        this.add(capas);
+        capas.setVisible(true);
+        capas.add(map, new Integer(1));
+        capas.add(interfaz, new Integer(1));
         map.setFocusable(true);
+        map.requestFocus();
+        openedOnce = false;
         setSize(1150,720); 
-        map.addComponentListener(new ComponentAdapter() {
-           public void componentHidden(ComponentEvent e){
-               map.getOyasumi().stop();
-           }
-           public void componentShown(ComponentEvent e) {
-               map.getOyasumi().play();
-           }
-        });
-        men.addComponentListener(new ComponentAdapter() {
-           public void componentHidden(ComponentEvent e){
-               men.getSong().stop();
-               onNow = men.getOnNow();
-               getMe().remove(men);
-               men = null;
-               reevaluate(onNow);
-           }
-        });
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        if(openedOnce == false){
-            new Splash(this);
-            openedOnce = true;
-        }
         this.getContentPane().setLayout(null);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     private Tablero getMe(){
         return this;
-    }
-    private void reevaluate(int i){
-        if(i == 1){
-            this.add(men);
-        }
-        else if(i == 2){
-            
-        }
-        else{
-            this.add(map);
-            map.requestFocus();
-            map.getOyasumi().play();
-        }
     }
 }
