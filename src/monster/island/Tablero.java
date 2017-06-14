@@ -30,6 +30,8 @@ public class Tablero extends JFrame
         interfaz = new Interfaz();
         map = new Mapa();
         capas = new JLayeredPane();
+        capas.setSize(1150, 720);
+        capas.setLocation(0, 0);
         this.add(capas);
         capas.setVisible(true);
         capas.add(map, new Integer(1));
@@ -40,6 +42,7 @@ public class Tablero extends JFrame
         setSize(1150,720); 
         this.getContentPane().setLayout(null);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     private Tablero getMe(){
