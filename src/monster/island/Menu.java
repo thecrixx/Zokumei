@@ -10,32 +10,34 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
  * @author Omar xv
  */
-public class Menu extends JPanel{ 
+public class Menu extends JFrame{ 
     private JLabel dragon, segundon, ayuda;
-    private Image fondillo;
-    private int i;
+    private JLabel fondillo;
     public boolean openedOnce;
     public final AudioClip menu;
     public Menu()
     {
         super();
-        i = 0;
         ayuda = new JLabel(new ImageIcon(getClass().getResource("imagenes/menu/Ayuda.jpg")));
         dragon= new JLabel(new ImageIcon(getClass().getResource("imagenes/menu/1.gif")));
-        fondillo = new ImageIcon(getClass().getResource("imagenes/menu/fondo.jpg")).getImage();
+        fondillo = new JLabel(new ImageIcon(getClass().getResource("imagenes/menu/fondo.jpg")));
         segundon= new JLabel(new ImageIcon());    
         ayuda.setLocation(1040,460);
         ayuda.setSize(150,50);
         segundon.setSize(200,200);
         segundon.setLocation(320,50);
+        fondillo.setLocation(0, 0);
+        fondillo.setSize(1280, 720);
         dragon.setSize(200,200);
         dragon.setLocation(240,260);
         menu = java.applet.Applet.newAudioClip(getClass().getResource("audio/16.wav"));
@@ -43,12 +45,18 @@ public class Menu extends JPanel{
         setLayout(null);
         ayuda.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e) {
-                getMe().setOnNow(2);
+                new Ayuda();
             }
         });
         dragon.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e) {
-                getMe().setOnNow(3);
+                Tablero tablero = new Tablero();
+                tablero.setVisible(true);
+                tablero.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we){
+                        getMe().setVisible(true);
+                    }
+                });
                 getMe().setVisible(false);
             }
             public void mouseEntered(MouseEvent e) {
@@ -65,30 +73,21 @@ public class Menu extends JPanel{
                 getMe().setVisible(false);
             }
         });
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(ayuda);
         this.add(segundon);
         this.add(dragon);
+        this.add(fondillo);
         this.setSize(1280,720);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        if(openedOnce == false){
+            new Splash(this);
+            openedOnce = true;
+        }
     }
     public Menu getMe()
     {
         return this;
-    }
-    public AudioClip getSong(){
-        return menu;
-    } 
-    private void setOnNow(int ii){
-        i = ii;
-    }
-    public int getOnNow(){
-        return i;
-    }
-    public Mapa newMap(){
-        return new Mapa();
-    }
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.drawImage(fondillo, 0, 0, this);
     }
 }

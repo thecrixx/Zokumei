@@ -17,10 +17,10 @@ import javax.swing.Timer;
  * @author Omar xv
  */
 public class Splash extends JFrame{
-    private Tablero padre;
+    private Menu padre;
     private int onNow;
     private Timer tmrTiempo;
-    public Splash (Tablero padre)
+    public Splash (Menu padre)
     {
         super ();
         this.padre=padre;
@@ -45,7 +45,7 @@ public class Splash extends JFrame{
     {
         return this;
     }
-    public Tablero getPadre()
+    public Menu getPadre()
     {
         return padre;
     }
